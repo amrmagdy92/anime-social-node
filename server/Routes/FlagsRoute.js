@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const FlagsController = require('./Controllers/Flags');
+const FlagsController = require('../Controllers/Flags/Flags');
 
 router.post('/create', FlagsController.createFlag());
 

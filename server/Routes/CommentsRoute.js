@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const CommentsController = require('./Controllers/Comments');
+const CommentsController = require('../Controllers/Comments/Comments');
 
 router.get('/', CommentsController.getComments());
 router.post('/create', CommentsController.createComment());
