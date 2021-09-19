@@ -3,7 +3,7 @@ var connection = mysql.createConnection(
     // add connection config
 );
 connection.connect();
-
+// FIXME: Clear all TODO
 module.exports = {
     getReferenceObject: (commentReferenceID, commentReferenceType) => {
         // TODO: add a check on the inputs
@@ -143,7 +143,67 @@ module.exports = {
                 syncPostCommentsCount(commentReferenceID);
             }
         },
-    updateComment: () => {},
-    deleteComment: () => {},
-    saveCommentReaction: () => {}
+    updateComment: (commentID, commentText, commentIsSpoiler) => {
+        var query = `UPDATE anime_db.comments SET comment_text = ${commentText}, comment_is_spoile = ${commentIsSpoiler}, WHERE comment_id = ${commentID}`;
+        connection.query(query, (err) => {
+            if (err) console.error(err);
+        });
+    },
+    deleteComment: (commentID, commentParentID, authorID) => {
+        var query = `DELETE FROM anime_db.comments WHERE comment_id = ${commentID}`;
+        connection.query(query, (err, results, fields) => {
+            if (err) {
+                console.error(`Encountered the following error: ${err}`);
+            } else if (results.length == 0) {
+                return [];
+            } else {
+                // return eligible rows
+            }
+        });
+        query = `UPDATE anime_db.comments SET comment_parent_id = '' WHERE comment_parentK_id = ${commentID}`;
+        connection.query(query, (err, results, fields) => {
+            if (err) {
+                console.error(`Encountered the following error: ${err}`);
+            } else if (results.length == 0) {
+                return [];
+            } else {
+                // return eligible rows
+            }
+        });
+
+        var comment = this.getCommentByID(commentID);
+
+        if (commentParentID) {
+            syncCommentRepliesCount(commentParentID);
+        }
+    },
+    saveCommentReaction: (userID, commentID, reaction) => {
+        var query = `DELETE FROM anime_db.comments_reactions WHERE comment_id = ${commentID} AND user_id = ${userID}`;
+        connection.query(query, (err, results, fields) => {
+            if (err) {
+                console.error(`Encountered the following error: ${err}`);
+            } else if (results.length == 0) {
+                return [];
+            } else {
+                // return eligible rows
+            }
+        });
+        var data = {
+            'comment_id': commentID,
+            'user_id': userID,
+            'reaction': reaction,
+            'reaction_at': new Date().toISOString().split('T')[0]
+        };
+        connection.query('INSERT INTO anime_db.comments_reactions SET ?', data, (err, results, fields) => {
+            if (err) {
+                console.error(`Encountered the following error: ${err}`);
+            } else if (results.length == 0) {
+                return [];
+            } else {
+                // return eligible rows
+            }
+        });
+        // TODO: Define syncCommentReactionsCount()
+        syncCommentReactionsCount();
+    }
 }

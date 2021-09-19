@@ -25,7 +25,7 @@ eval("const config = {\n  env: 'development',\n  port: 3000,\n  MySQLURI: 'local
   \*************************************************/
 /***/ ((module) => {
 
-eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  createComment: () => {},\n  updateComment: () => {},\n  deleteComment: () => {},\n  getComments: () => {},\n  reaction: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Comments/Comments.js?");
+eval("// FIXME: Create the logic for each of the functions exported here\n// MARK: This is where the logic from the SQL file is called\nmodule.exports = {\n  createComment: () => {},\n  updateComment: () => {},\n  deleteComment: () => {},\n  getComments: () => {},\n  reaction: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Comments/Comments.js?");
 
 /***/ }),
 
