@@ -1,5 +1,5 @@
 var express = require('express');
-const FollowController = require('./Controllers/Follows');
+const FollowController = require('./Controllers/Follows/Follows');
 
 const PostsRouter = require('./Routes/PostsRoute');
 const CommentsRouter = require('./Routes/CommentsRoute');

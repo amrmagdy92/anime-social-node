@@ -19,13 +19,123 @@ eval("const config = {\n  env: 'development',\n  port: 3000,\n  MySQLURI: 'local
 
 /***/ }),
 
+/***/ "./server/Controllers/Comments/Comments.js":
+/*!*************************************************!*\
+  !*** ./server/Controllers/Comments/Comments.js ***!
+  \*************************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  createComment: () => {},\n  updateComment: () => {},\n  deleteComment: () => {},\n  getComments: () => {},\n  reaction: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Comments/Comments.js?");
+
+/***/ }),
+
+/***/ "./server/Controllers/FlagReasons/FlagReasons.js":
+/*!*******************************************************!*\
+  !*** ./server/Controllers/FlagReasons/FlagReasons.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  getFlagReasons: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/FlagReasons/FlagReasons.js?");
+
+/***/ }),
+
+/***/ "./server/Controllers/Flags/Flags.js":
+/*!*******************************************!*\
+  !*** ./server/Controllers/Flags/Flags.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  createFlag: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Flags/Flags.js?");
+
+/***/ }),
+
+/***/ "./server/Controllers/Follows/Follows.js":
+/*!***********************************************!*\
+  !*** ./server/Controllers/Follows/Follows.js ***!
+  \***********************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  follow: () => {},\n  unfollow: () => {},\n  blockUser: () => {},\n  unblockUser: () => {},\n  getSearchFollowings: () => {},\n  getFollowings: () => {},\n  getFollowers: () => {},\n  getBlockedUsers: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Follows/Follows.js?");
+
+/***/ }),
+
+/***/ "./server/Controllers/Polls/Polls.js":
+/*!*******************************************!*\
+  !*** ./server/Controllers/Polls/Polls.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  addVote: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Polls/Polls.js?");
+
+/***/ }),
+
+/***/ "./server/Controllers/Posts/Posts.js":
+/*!*******************************************!*\
+  !*** ./server/Controllers/Posts/Posts.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+eval("// FIXME: Create the logic for each of the functions exported here\nmodule.exports = {\n  createPost: () => {},\n  updatePost: () => {},\n  deletePost: () => {},\n  hide: () => {},\n  reaction: () => {},\n  getPosts: () => {}\n};\n\n//# sourceURL=webpack://anime-social-node/./server/Controllers/Posts/Posts.js?");
+
+/***/ }),
+
+/***/ "./server/Routes/CommentsRoute.js":
+/*!****************************************!*\
+  !*** ./server/Routes/CommentsRoute.js ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var router = __webpack_require__(/*! express */ \"express\").Router();\n\nconst CommentsController = __webpack_require__(/*! ../Controllers/Comments/Comments */ \"./server/Controllers/Comments/Comments.js\");\n\nrouter.get('/', CommentsController.getComments());\nrouter.post('/create', CommentsController.createComment());\nrouter.post('/reaction', CommentsController.reaction());\nrouter.post('/update/:comment_id', CommentsController.updateComment());\nrouter.delete('/delete/:comment_id', CommentsController.deleteComment());\nmodule.exports = router;\n\n//# sourceURL=webpack://anime-social-node/./server/Routes/CommentsRoute.js?");
+
+/***/ }),
+
+/***/ "./server/Routes/FlagReasonsRoute.js":
+/*!*******************************************!*\
+  !*** ./server/Routes/FlagReasonsRoute.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var router = __webpack_require__(/*! express */ \"express\").Router();\n\nconst FlagReasonsController = __webpack_require__(/*! ../Controllers/FlagReasons/FlagReasons */ \"./server/Controllers/FlagReasons/FlagReasons.js\");\n\nrouter.get('/', FlagReasonsController.getFlagReasons());\nmodule.exports = router;\n\n//# sourceURL=webpack://anime-social-node/./server/Routes/FlagReasonsRoute.js?");
+
+/***/ }),
+
+/***/ "./server/Routes/FlagsRoute.js":
+/*!*************************************!*\
+  !*** ./server/Routes/FlagsRoute.js ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var router = __webpack_require__(/*! express */ \"express\").Router();\n\nconst FlagsController = __webpack_require__(/*! ../Controllers/Flags/Flags */ \"./server/Controllers/Flags/Flags.js\");\n\nrouter.post('/create', FlagsController.createFlag());\nmodule.exports = router;\n\n//# sourceURL=webpack://anime-social-node/./server/Routes/FlagsRoute.js?");
+
+/***/ }),
+
+/***/ "./server/Routes/PollsRoute.js":
+/*!*************************************!*\
+  !*** ./server/Routes/PollsRoute.js ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var router = __webpack_require__(/*! express */ \"express\").Router();\n\nconst PollsController = __webpack_require__(/*! ../Controllers/Polls/Polls */ \"./server/Controllers/Polls/Polls.js\");\n\nrouter.post('/vote', PollsController.addVote());\nmodule.exports = router;\n\n//# sourceURL=webpack://anime-social-node/./server/Routes/PollsRoute.js?");
+
+/***/ }),
+
+/***/ "./server/Routes/PostsRoute.js":
+/*!*************************************!*\
+  !*** ./server/Routes/PostsRoute.js ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var router = __webpack_require__(/*! express */ \"express\").Router();\n\nconst PostsController = __webpack_require__(/*! ../Controllers/Posts/Posts */ \"./server/Controllers/Posts/Posts.js\");\n\nrouter.get('/', PostsController.getPosts());\nrouter.post('/create', PostsController.createPost());\nrouter.post('/hide', PostsController.hide());\nrouter.post('/reaction', PostsController.reaction());\nrouter.post('/update/:post_id', PostsController.updatePost());\nrouter.delete('/update/:post_id', PostsController.deletePost());\nmodule.exports = router;\n\n//# sourceURL=webpack://anime-social-node/./server/Routes/PostsRoute.js?");
+
+/***/ }),
+
 /***/ "./server/app.js":
 /*!***********************!*\
   !*** ./server/app.js ***!
   \***********************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar app = express();\napp.use(express.json());\napp.use(express.urlencoded({\n  extended: true\n})); // TODO: Set routes here\n\n//# sourceURL=webpack://anime-social-node/./server/app.js?");
+eval("var express = __webpack_require__(/*! express */ \"express\");\n\nconst FollowController = __webpack_require__(/*! ./Controllers/Follows/Follows */ \"./server/Controllers/Follows/Follows.js\");\n\nconst PostsRouter = __webpack_require__(/*! ./Routes/PostsRoute */ \"./server/Routes/PostsRoute.js\");\n\nconst CommentsRouter = __webpack_require__(/*! ./Routes/CommentsRoute */ \"./server/Routes/CommentsRoute.js\");\n\nconst FlagsRouter = __webpack_require__(/*! ./Routes/FlagsRoute */ \"./server/Routes/FlagsRoute.js\");\n\nconst FlagReasonsRouter = __webpack_require__(/*! ./Routes/FlagReasonsRoute */ \"./server/Routes/FlagReasonsRoute.js\");\n\nconst PollsRouter = __webpack_require__(/*! ./Routes/PollsRoute */ \"./server/Routes/PollsRoute.js\");\n\nvar app = express();\napp.use(express.json());\napp.use(express.urlencoded({\n  extended: true\n})); // FIXME: Need to find a better route structure for the Follows logic\n// Follows\n\napp.post('/api/follow', FollowController.follow());\napp.post('/api/unfollow', FollowController.unfollow());\napp.post('/api/block-user', FollowController.blockUser());\napp.post('/api/unblock-user', FollowController.unblockUser());\napp.get('/api/search-followings', FollowController.getSearchFollowings());\napp.get('/api/followings', FollowController.getFollowings());\napp.get('/api/followers', FollowController.getFollowers());\napp.get('/api/blocked-users', FollowController.getBlockedUsers()); // Posts\n\napp.use('/api/posts', PostsRouter); // Comments\n\napp.use('/api/comments', CommentsRouter); // Flags\n\napp.use('/api/flags', FlagsRouter); // Flag Reasons\n\napp.use('/api/flag-reasons', FlagReasonsRouter); //Polls\n\napp.use('/api/polls', PollsRouter);\nmodule.exports = app;\n\n//# sourceURL=webpack://anime-social-node/./server/app.js?");
 
 /***/ }),
 
