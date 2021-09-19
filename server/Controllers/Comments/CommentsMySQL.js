@@ -9,10 +9,10 @@ module.exports = {
         // TODO: add a check on the inputs
         if(commentReferenceID && commentReferenceType) {
             var query = `SELECT post_id comment_reference_id FROM anime_db.posts WHERE post_id = ${commentReferenceID} LIMIT 1`;
-            connection.query(query, (err, result, field) => {
+            connection.query(query, (err, results, field) => {
                 if (err) {
                     console.error(`Encountered the following error: ${err}`);
-                } else if (result.length == 0) {
+                } else if (results.length == 0) {
                     return [];
                 } else {
                     // return row
@@ -23,10 +23,10 @@ module.exports = {
     getCommentByID: (commentID) => {
         // TODO: add a check on the inputs
         var query = `SELECT comments.comment_id, comments.author_id, comments.comment_parent_id, comment_reference_type FROM anime_db.comments WHERE comments.comment_id = ${commentID} LIMIT 1`
-        connection.query(query, (err, result, fields) => {
+        connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
-            } else if (result.length == 0) {
+            } else if (results.length == 0) {
                 return [];
             } else {
                 // return eligible rows
@@ -76,10 +76,10 @@ module.exports = {
             query += 'ORDER BY comments.comment_created_at DESC';
         }
 
-        connection.query(query, (err, result, fields) => {
+        connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
-            } else if (result.length == 0) {
+            } else if (results.length == 0) {
                 return [];
             } else {
                 // return eligible rows
@@ -105,16 +105,16 @@ module.exports = {
                 'comment_created_at': new Date().toISOString().split('T')[0]
             }
 
-            var query = `INSERT INTO anime_db.comments ${data}`;
+            var query = 'INSERT INTO anime_db.comments SET ?';
             var comment_id;
 
-            connection.query(query, (err, result, fields) => {
+            connection.query(query, data, (err, results, fields) => {
                 if (err) {
                     console.error(`Encountered the following error: ${err}`);
-                } else if (result.length == 0) {
+                } else if (results.length == 0) {
                     return [];
                 } else {
-                    comment_id = result.insertID;
+                    return comment_id = result.insertID;
                 }
             });
 
@@ -128,6 +128,19 @@ module.exports = {
                     'comment_id': comment_id,
                     'post_id': commentReferenceID
                 }
+                query = 'INSERT INTO anime_db.posts_comments SET ?';
+                connection.query(query, data, (err, results, fields) => {
+                    if (err) {
+                        console.error(`Encountered the following error: ${err}`);
+                    } else if (results.length == 0) {
+                        return [];
+                    } else {
+                        // return eligible rows
+                    }
+                });
+
+                // TODO: define syncPostCommentsCount()
+                syncPostCommentsCount(commentReferenceID);
             }
         },
     updateComment: () => {},
