@@ -1,4 +1,4 @@
-const config = require('../config/config');
+require('dotenv').config();
 const cluster = require('cluster');
 const process = require('process');
 const http = require('http');
@@ -18,6 +18,6 @@ if (cluster.isMaster) {
         cluster.fork();
     })
 } else {
-    http.createServer(app).listen(config.port);
-    console.log(`Server(${process.pid}) is listening at port(${config.port})`);
+    http.createServer(app).listen(process.env.SERVER_PORT);
+    console.log(`Server(${process.pid}) is listening at port(${process.env.SERVER_PORT})`);
 };
