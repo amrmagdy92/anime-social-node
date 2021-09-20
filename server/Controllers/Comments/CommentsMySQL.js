@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection(
-    // add connection config
+    // TODO: add connection config
 );
 connection.connect();
 // FIXME: Clear all TODO
@@ -15,7 +15,7 @@ module.exports = {
                 } else if (results.length == 0) {
                     return [];
                 } else {
-                    // return row
+                    // TODO: return row
                 }
             });
         }
@@ -29,7 +29,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: return eligible rows
             }
         });
     },
@@ -82,7 +82,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: return eligible rows
             }
         });
     },
@@ -157,7 +157,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: return eligible rows
             }
         });
         query = `UPDATE anime_db.comments SET comment_parent_id = '' WHERE comment_parentK_id = ${commentID}`;
@@ -167,7 +167,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: return eligible rows
             }
         });
 
@@ -185,7 +185,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: return eligible rows
             }
         });
         var data = {
