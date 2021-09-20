@@ -8,7 +8,7 @@ module.exports = {
     getReferenceObject: (commentReferenceID, commentReferenceType) => {
         // TODO: add a check on the inputs
         if(commentReferenceID && commentReferenceType) {
-            var query = `SELECT post_id comment_reference_id FROM anime_db.posts WHERE post_id = ${commentReferenceID} LIMIT 1`;
+            var query = `SELECT post_id comment_reference_id FROM anime_social_db.posts WHERE post_id = ${commentReferenceID} LIMIT 1`;
             connection.query(query, (err, results, field) => {
                 if (err) {
                     console.error(`Encountered the following error: ${err}`);
@@ -22,7 +22,7 @@ module.exports = {
     },
     getCommentByID: (commentID) => {
         // TODO: add a check on the inputs
-        var query = `SELECT comments.comment_id, comments.author_id, comments.comment_parent_id, comment_reference_type FROM anime_db.comments WHERE comments.comment_id = ${commentID} LIMIT 1`
+        var query = `SELECT comments.comment_id, comments.author_id, comments.comment_parent_id, comment_reference_type FROM anime_social_db.comments WHERE comments.comment_id = ${commentID} LIMIT 1`
         connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
@@ -66,11 +66,11 @@ module.exports = {
         var WHERE = '';
         
         if (commentReferenceType == 'posts') {
-            JOIN = ' INNER JOIN anime_db.posts_comments ON comments.comment_id = posts_comments.comment_id';
+            JOIN = ' INNER JOIN anime_social_db.posts_comments ON comments.comment_id = posts_comments.comment_id';
             WHERE = `AND posts_comments.post_id = ${commentReferenceID}`;
         }
 
-        var query = `SELECT oauth_users.user_id, oauth_users.username, users.user_full_name, users.user_image, comments.comment_id, comments.comment_parent_id, comment_text, comment_is_spoiler, comment_is_reply, comment_replies_count, comment_likes_count, comment_dislikes_count, comment_flags_count, .comment_created_at FROM anime_db.comments INNER JOIN anime_db.oauth_users ON comments.author_id = ouath_users.user_id INNER JOIN anime_db.users ON oauth_users.user_id = users.user_id ${JOIN} WHERE 1 = 1 ${WHERE}`;
+        var query = `SELECT oauth_users.user_id, oauth_users.username, users.user_full_name, users.user_image, comments.comment_id, comments.comment_parent_id, comment_text, comment_is_spoiler, comment_is_reply, comment_replies_count, comment_likes_count, comment_dislikes_count, comment_flags_count, comment_created_at FROM anime_social_db.comments INNER JOIN anime_social_db.oauth_users ON comments.author_id = ouath_users.user_id INNER JOIN anime_social_db.users ON oauth_users.user_id = users.user_id ${JOIN} WHERE 1 = 1 ${WHERE}`;
         
         if (orderBy == 'comment_created_at_desc') {
             query += 'ORDER BY comments.comment_created_at DESC';
@@ -105,7 +105,7 @@ module.exports = {
                 'comment_created_at': new Date().toISOString().split('T')[0]
             }
 
-            var query = 'INSERT INTO anime_db.comments SET ?';
+            var query = 'INSERT INTO anime_social_db.comments SET ?';
             var comment_id;
 
             connection.query(query, data, (err, results, fields) => {
@@ -128,7 +128,7 @@ module.exports = {
                     'comment_id': comment_id,
                     'post_id': commentReferenceID
                 }
-                query = 'INSERT INTO anime_db.posts_comments SET ?';
+                query = 'INSERT INTO anime_social_db.posts_comments SET ?';
                 connection.query(query, data, (err, results, fields) => {
                     if (err) {
                         console.error(`Encountered the following error: ${err}`);
@@ -144,13 +144,13 @@ module.exports = {
             }
         },
     updateComment: (commentID, commentText, commentIsSpoiler) => {
-        var query = `UPDATE anime_db.comments SET comment_text = ${commentText}, comment_is_spoile = ${commentIsSpoiler}, WHERE comment_id = ${commentID}`;
+        var query = `UPDATE anime_social_db.comments SET comment_text = ${commentText}, comment_is_spoile = ${commentIsSpoiler}, WHERE comment_id = ${commentID}`;
         connection.query(query, (err) => {
             if (err) console.error(err);
         });
     },
     deleteComment: (commentID, commentParentID, authorID) => {
-        var query = `DELETE FROM anime_db.comments WHERE comment_id = ${commentID}`;
+        var query = `DELETE FROM anime_social_db.comments WHERE comment_id = ${commentID}`;
         connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
@@ -160,7 +160,7 @@ module.exports = {
                 // TODO: return eligible rows
             }
         });
-        query = `UPDATE anime_db.comments SET comment_parent_id = '' WHERE comment_parentK_id = ${commentID}`;
+        query = `UPDATE anime_social_db.comments SET comment_parent_id = '' WHERE comment_parentK_id = ${commentID}`;
         connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
@@ -178,7 +178,7 @@ module.exports = {
         }
     },
     saveCommentReaction: (userID, commentID, reaction) => {
-        var query = `DELETE FROM anime_db.comments_reactions WHERE comment_id = ${commentID} AND user_id = ${userID}`;
+        var query = `DELETE FROM anime_social_db.comments_reactions WHERE comment_id = ${commentID} AND user_id = ${userID}`;
         connection.query(query, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
@@ -194,7 +194,7 @@ module.exports = {
             'reaction': reaction,
             'reaction_at': new Date().toISOString().split('T')[0]
         };
-        connection.query('INSERT INTO anime_db.comments_reactions SET ?', data, (err, results, fields) => {
+        connection.query('INSERT INTO anime_social_db.comments_reactions SET ?', data, (err, results, fields) => {
             if (err) {
                 console.error(`Encountered the following error: ${err}`);
             } else if (results.length == 0) {
