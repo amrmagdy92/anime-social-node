@@ -15,7 +15,8 @@ module.exports = {
                 } else if (results.length == 0) {
                     return [];
                 } else {
-                    // TODO: return row
+                    // TODO: Test this return
+                    return results[0];
                 }
             });
         }
@@ -29,7 +30,8 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: return eligible rows
+                // TODO: Test this return
+                return results[0];
             }
         });
     },
@@ -82,7 +84,10 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: return eligible rows
+                // TODO: Test this return
+                for (result in results) {
+                    return result
+                }
             }
         });
     },
@@ -135,7 +140,8 @@ module.exports = {
                     } else if (results.length == 0) {
                         return [];
                     } else {
-                        // return eligible rows
+                        // TODO: Test this return
+                        return 'Insert was successful';
                     }
                 });
 
@@ -157,7 +163,8 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: return eligible rows
+                // TODO: Test this return
+                return 'DELETE was successful'
             }
         });
         query = `UPDATE anime_social_db.comments SET comment_parent_id = '' WHERE comment_parentK_id = ${commentID}`;
@@ -167,7 +174,10 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: return eligible rows
+                // TODO: Test this return
+                for (result in results) {
+                    return result
+                }
             }
         });
 
@@ -185,7 +195,8 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: return eligible rows
+                // TODO: Test this return
+                return 'DELETE reaction was successful';
             }
         });
         var data = {
@@ -200,7 +211,8 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // return eligible rows
+                // TODO: Test this return
+                return 'INSERT reaction was successful'
             }
         });
         // TODO: Define syncCommentReactionsCount()
