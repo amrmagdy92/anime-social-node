@@ -122,7 +122,7 @@ module.exports = {
                 } else if (results.length == 0) {
                     return [];
                 } else {
-                    return comment_id = result.insertID;
+                    return comment_id = results.insertID;
                 }
             });
 
