@@ -1,4 +1,4 @@
-// FIXME: Create the logic for each of the functions exported here
+var databaseMethods = require('./FollowsMySQL');
 
 module.exports = {
     follow: () => {},
