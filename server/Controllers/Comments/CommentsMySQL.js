@@ -87,10 +87,7 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
-                for (result in results) {
-                    return result
-                }
+                return results;
             }
         });
     },
