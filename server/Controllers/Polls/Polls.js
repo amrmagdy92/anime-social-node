@@ -1,4 +1,4 @@
-var databaseMethods = require('./PollsMySQL');
+const pollsDBMethods = require('./PollsMySQL');
 
 module.exports = {
     addVote: () => {}

@@ -1,4 +1,4 @@
-const databaseMethods = require('./ImagesMySQL');
+const imagesDBMethods = require('./ImagesMySQL');
 
 module.exports = {
     createImages: () => {},

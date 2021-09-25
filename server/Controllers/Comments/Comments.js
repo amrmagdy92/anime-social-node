@@ -1,4 +1,4 @@
-var databaseMethods = require('./CommentsMySQL');
+const commentsDBMethods = require('./CommentsMySQL');
 
 module.exports = {
     createComment: () => {},

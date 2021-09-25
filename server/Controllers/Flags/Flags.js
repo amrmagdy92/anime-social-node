@@ -1,4 +1,4 @@
-var databaseMethods = require('./FlagsMySQL');
+const flagsDBMethods = require('./FlagsMySQL');
 
 module.exports = {
     createFlag: () => {}

@@ -1,4 +1,4 @@
-var databaseMethods = require('./FollowsMySQL');
+const followsDBMethods = require('./FollowsMySQL');
 
 module.exports = {
     follow: () => {},

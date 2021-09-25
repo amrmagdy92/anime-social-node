@@ -1,4 +1,4 @@
-var databaseMethods = require('./FlagReasonsMySQL');
+const flagReasonsDBMethods = require('./FlagReasonsMySQL');
 
 module.exports = {
     getFlagReasons: () => {}

@@ -1,4 +1,4 @@
-var databaseMethods = require('./PostsMySQL');
+const postsDBMethods = require('./PostsMySQL');
 
 module.exports = {
     createPost: () => {},
