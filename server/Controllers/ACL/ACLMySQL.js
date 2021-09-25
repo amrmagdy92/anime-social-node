@@ -1,5 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
+const dbSync = require('../DB/db');
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
@@ -26,8 +27,7 @@ module.exports = {
 
             if (row.user_id) {
                 var userID = row.userID;
-                // TODO: define createUserSocialDetails()
-                createUserSocialDetails(userID);
+                dbSync.createUserSocialDetails(userID);
                 var query = `SELECT user_per_day_limit_for_public_posts, user_per_day_limit_for_following_posts FROM users_social_details WHERE user_id = ${userID} LIMIT 1`;
                 var user = connection.query(query, (err, results, fields) => {
                     if (err) throw err;
