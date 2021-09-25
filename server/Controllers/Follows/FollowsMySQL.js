@@ -1,6 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
-var dbSync = require('../DB/db');
+const dbSync = require('../DB/db');
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
