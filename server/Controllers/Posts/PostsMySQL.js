@@ -1,5 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
+const dbSync = require('../DB/db');
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
@@ -195,9 +196,7 @@ module.exports = {
                 return 'INSERT was successful';
             });
         };
-
-        // TODO: Define syncPostReactionsCount()
-        syncPostReactionsCount(postID);
+        dbSync.syncPostReactionsCount(postID);
     },
     insertPoll: (postID, pollLength, authorID) => {
         var query = 'INSERT INTO anime_social_db.posts_polls SET ?';
