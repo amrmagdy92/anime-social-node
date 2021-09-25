@@ -1,15 +1,15 @@
 require('dotenv').config();
 var mysql = require('mysql');
+const miscDBMethods = require('../DB/db'); // TODO: figure out a better name
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
     password: process.env.ANIME_SOCIAL_PASSWORD
 });
 connection.connect();
-// FIXME: Clear all TODO
+
 module.exports = {
     getReferenceObject: (commentReferenceID, commentReferenceType) => {
-        // TODO: add a check on the inputs
         if(commentReferenceID && commentReferenceType) {
             var query = `SELECT post_id comment_reference_id FROM anime_social_db.posts WHERE post_id = ${commentReferenceID} LIMIT 1`;
             connection.query(query, (err, results, field) => {
@@ -18,14 +18,12 @@ module.exports = {
                 } else if (results.length == 0) {
                     return [];
                 } else {
-                    // TODO: Test this return
                     return results[0];
                 }
             });
         }
     },
     getCommentByID: (commentID) => {
-        // TODO: add a check on the inputs
         var query = `SELECT comments.comment_id, comments.author_id, comments.comment_parent_id, comment_reference_type FROM anime_social_db.comments WHERE comments.comment_id = ${commentID} LIMIT 1`
         connection.query(query, (err, results, fields) => {
             if (err) {
@@ -33,13 +31,11 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
                 return results[0];
             }
         });
     },
     getComments: (params) => {
-        // TODO: add a check on the inputs
         const pageNumber = params._page_number;
         const recordsPerPage = params._records_per_page;
         const start = params._start;
@@ -123,9 +119,8 @@ module.exports = {
                 }
             });
 
-            // TODO: define syncCommentRepliesCount()
             if (commentParentID) {
-                syncCommentRepliesCount(commentParentID);
+                miscDBMethods.syncCommentRepliesCount(commentParentID);
             }
 
             if (commentReferenceType == 'posts') {
@@ -140,13 +135,11 @@ module.exports = {
                     } else if (results.length == 0) {
                         return [];
                     } else {
-                        // TODO: Test this return
                         return 'Insert was successful';
                     }
                 });
 
-                // TODO: define syncPostCommentsCount()
-                syncPostCommentsCount(commentReferenceID);
+                miscDBMethods.syncPostCommentsCount(commentReferenceID);
             }
         },
     updateComment: (commentID, commentText, commentIsSpoiler) => {
@@ -163,7 +156,6 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
                 return 'DELETE was successful'
             }
         });
@@ -174,7 +166,6 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
                 for (result in results) {
                     return result
                 }
@@ -184,7 +175,7 @@ module.exports = {
         var comment = this.getCommentByID(commentID);
 
         if (commentParentID) {
-            syncCommentRepliesCount(commentParentID);
+            miscDBMethods.syncCommentRepliesCount(commentParentID);
         }
     },
     saveCommentReaction: (userID, commentID, reaction) => {
@@ -195,7 +186,6 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
                 return 'DELETE reaction was successful';
             }
         });
@@ -211,11 +201,9 @@ module.exports = {
             } else if (results.length == 0) {
                 return [];
             } else {
-                // TODO: Test this return
                 return 'INSERT reaction was successful'
             }
         });
-        // TODO: Define syncCommentReactionsCount()
-        syncCommentReactionsCount();
+        miscDBMethods.syncCommentReactionsCount();
     }
 }
