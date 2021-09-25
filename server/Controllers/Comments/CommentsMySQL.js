@@ -1,6 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
-const miscDBMethods = require('../DB/db'); // TODO: figure out a better name
+const dbSync = require('../DB/db'); // TODO: figure out a better name
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
@@ -120,7 +120,7 @@ module.exports = {
             });
 
             if (commentParentID) {
-                miscDBMethods.syncCommentRepliesCount(commentParentID);
+                dbSync.syncCommentRepliesCount(commentParentID);
             }
 
             if (commentReferenceType == 'posts') {
@@ -139,7 +139,7 @@ module.exports = {
                     }
                 });
 
-                miscDBMethods.syncPostCommentsCount(commentReferenceID);
+                dbSync.syncPostCommentsCount(commentReferenceID);
             }
         },
     updateComment: (commentID, commentText, commentIsSpoiler) => {
@@ -175,7 +175,7 @@ module.exports = {
         var comment = this.getCommentByID(commentID);
 
         if (commentParentID) {
-            miscDBMethods.syncCommentRepliesCount(commentParentID);
+            dbSync.syncCommentRepliesCount(commentParentID);
         }
     },
     saveCommentReaction: (userID, commentID, reaction) => {
@@ -204,6 +204,6 @@ module.exports = {
                 return 'INSERT reaction was successful'
             }
         });
-        miscDBMethods.syncCommentReactionsCount();
+        dbSync.syncCommentReactionsCount();
     }
 }
