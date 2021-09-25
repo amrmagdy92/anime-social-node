@@ -1,5 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
+var dbSync = require('../DB/db');
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
@@ -45,11 +46,8 @@ module.exports = {
             if(results.length == 0) return [];
             return comment_id = results.insertID;
         });
-
-        // TODO: Define syncUserFollowingsCount() and syncUserFollwersCount()
-        // TODO: Test if this will be executed after query
-        syncUserFollowingsCount(followerID);
-        syncUserFollwersCount(followingID);
+        dbSync.syncUserFollowingsCount(followerID);
+        dbSync.syncUserFollwersCount(followingID);
     },
     deleteFollow: (followerID, followingID) => {
         var query = `DELETE FROM anime_social_db.follows WHERE follower_id = ${followerID} AND following_id = ${followingID}`;
@@ -59,11 +57,8 @@ module.exports = {
             if(results.length == 0) return [];
             return results[0];
         });
-
-        // TODO: Define syncUserFollowingsCount() and syncUserFollwersCount()
-        // TODO: Test if this will be executed after query
-        syncUserFollowingsCount(followerID);
-        syncUserFollwersCount(followingID);
+        dbSync.syncUserFollowingsCount(followerID);
+        dbSync.syncUserFollwersCount(followingID);
     },
     createBlockedUser: (blockerUserID, blockedUserID) => {
         // TODO: Ask Lelouch how this is is built in FollowsStorage.php
