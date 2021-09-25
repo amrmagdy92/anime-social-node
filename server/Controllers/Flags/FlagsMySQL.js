@@ -1,5 +1,6 @@
 require('dotenv').config();
 var mysql = require('mysql');
+const dbSync = require('../DB/db');
 var connection = mysql.createConnection({
     host: process.env.ANIME_SOCIAL_HOST,
     user: process.env.ANIME_SOCIAL_USER,
@@ -69,8 +70,7 @@ module.exports = {
                     console.log('INSERT was successful');
                 }
             });
-            // TODO: Define syncPostFlagsCount()
-            syncPostFlagsCount(flagReferenceID);
+            dbSync.syncPostFlagsCount(flagReferenceID);
         }
 
         if (flagReferenceType === "comments") {
@@ -88,8 +88,7 @@ module.exports = {
                     console.log('INSERT was successful');
                 }
             });
-            // TODO: Define syncCommentFlagsCount()
-            syncCommentFlagsCount(flagReferenceID);
+            dbSync.syncCommentFlagsCount(flagReferenceID);
         }
     }
 };
