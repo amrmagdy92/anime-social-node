@@ -3,7 +3,7 @@ const AccessController = require('../ACL/ACL');
 
 module.exports = {
     getComments: (authorization, params) => {
-        var checkAuthorization = AccessController.isAuthorizedUSer(authorization);
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
         if (checkAuthorization.status == 'error') {
             return checkAuthorization;
         };

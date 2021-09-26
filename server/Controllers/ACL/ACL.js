@@ -1,7 +1,7 @@
 const ACLDBMethods = require('./ACLMySQL');
 
 module.exports = {
-    isAuthorizedUSer: (authorizationToken) => {
+    isAuthorizedUser: (authorizationToken) => {
         var tokenParts = authorizationToken.split(' ');
         var tokenType = tokenParts[0].trim();
         var accessToken = tokenParts[1].trim();
