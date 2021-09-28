@@ -108,17 +108,17 @@ module.exports = {
             };
         };
 
-        if (!commentText) {
+        if (!commentText.trim()) {
             validationErrors.comment_text = {
                 reason: 'empty',
                 message: 'Please enter a comment.'
             };
         };
 
-        if (commentText && commentText.length > 1000) {
+        if (commentText.trim() && commentText.length > 1000) {
             validationErrors.comment_text = {
                 reason: 'string length',
-                message: 'Please enter less than 100 char'
+                message: 'Please enter less than 1000 char'
             };
         };
 
@@ -148,7 +148,78 @@ module.exports = {
             message: 'Comment created successfully'
         }
     },
-    updateComment: () => {},
+    updateComment: (authorization, commentID, commentText, commentIsSpoiler) => {
+        checkAuthorization = AccessController.isAuthorizedUser(authorization);
+
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var authorID = authorized.user_id;
+
+        var comment = commentsDBMethods.getCommentByID(commentID);
+
+        if (!comment) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalide_comment_id',
+                message: 'Invalid comment_id'
+            };
+        };
+
+        if (comment.author_id != authorID) {
+            return result = {
+                status: 'error',
+                code: '403',
+                reason: 'invalid_author',
+                message: 'Not authorizedto perform the requested operation'
+            };
+        };
+
+        var validationErrors;
+
+        if (!commentText.trim()) {
+            validationErrors.comment_text = {
+                reason: 'empty',
+                message: 'Please enter a comment.'
+            };
+        };
+
+        if (commentText.trim() && commentText.length > 1000) {
+            validationErrors.comment_text = {
+                reason: 'string length',
+                message: 'Please enter less than 1000 char'
+            };
+        };
+
+        var commentSpoilerValues = ['Yes', 'No'];
+        if (!commentSpoilerValues.includes(commentIsSpoiler)) {
+            validationErrors.comment_is_spoiler = {
+                reason: 'in_array',
+                message: `Please select from: ${commentSpoilerValues.join(',')}`
+            };
+        };
+
+        if (validationErrors) {
+            return result = {
+                status: 'error',
+                code: 422,
+                reason: 'validation_errors',
+                message: 'Please correct the highlighted errors',
+                validationErrors
+            };
+        };
+
+        commentsDBMethods.updateComment(commentID, commentText, commentIsSpoiler);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Comment updated successfully'
+        }
+    },
     deleteComment: () => {},
     reaction: () => {}
 }
