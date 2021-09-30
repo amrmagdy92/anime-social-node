@@ -249,5 +249,52 @@ module.exports = {
             message: 'Comment deleted successfully'
         };
     },
-    reaction: () => {}
+    reaction: (authorization, commentID, reaction) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var userID = authorized.user_id;
+
+        var comment = commentsDBMethods.getCommentByID(commentID.trim());
+        if (!comment) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_comment_id',
+                message: 'Invalid comment_id'
+            };
+        };
+
+        var validationErrors;
+        var reactionValues = ['like', 'dislike'];
+
+        if (reactionValues.includes(reaction)) {
+            validationErrors.reaction = {
+                reason: 'in_array',
+                message: `Please select from: ${reactionValues.join(',')}`
+            };
+        }
+
+        if (validationErrors) {
+            return result = {
+                status: 'error',
+                code: 422,
+                reason: 'validation_errors',
+                message: 'Please correct the highlighted errors',
+                validationErrors
+            };
+        };
+
+        commentsDBMethods.saveCommentReaction(userID, commentID, reaction);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Comment reaction saved successfully'
+        };
+    }
 }
