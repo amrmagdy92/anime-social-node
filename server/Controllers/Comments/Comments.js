@@ -220,6 +220,34 @@ module.exports = {
             message: 'Comment updated successfully'
         }
     },
-    deleteComment: () => {},
+    deleteComment: (authorization, commentID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var authorID = authorized.user_id;
+
+        var comment = commentsDBMethods.getCommentByID(commentID.trim());
+        
+        if (!comment) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalide_comment_id',
+                message: 'Invalid comment_id'
+            };
+        };
+
+        commentsDBMethods.deleteComment(commentID.trim(), comment.comment_parent_id, authorID);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Comment deleted successfully'
+        };
+    },
     reaction: () => {}
 }
