@@ -148,7 +148,32 @@ module.exports = {
             message: 'User has been blocked.'
         };
     },
-    unblockUser: () => {},
+    unblockUser: (authorization, blockedUserID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var blockerUserID = authorized.user_id;
+
+        if (!blockedUserID.trim() || isNaN(blockedUserID.trim())) {
+            return result = {
+                status: 'error',
+                code: '400',
+                reason: 'invalid_blocked_user_id',
+                message: 'blocked_user_id must be valid numeric digits'
+            };
+        };
+
+        followsDBMethods.deleteBlockedUser(blockerUserID, blockedUserID.trim());
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'User has been unblocked.'
+        };
+    },
     getSearchFollowings: () => {},
     getFollowings: () => {},
     getFollowers: () => {},
