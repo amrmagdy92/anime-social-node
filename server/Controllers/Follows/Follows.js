@@ -208,7 +208,32 @@ module.exports = {
             message: data
         };
     },
-    getFollowings: () => {},
+    getFollowings: (authorization, params) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        var loggedUserID = '';
+
+        if (checkAuthorization.status == 'success') {
+            loggedUserID = checkAuthorization.access.user_id;
+        };
+
+        var followerID = params.user_id;
+
+        params = {
+            '_type': 'followings',
+            '_order_by': 'followed_at_desc',
+            '_record_per_page': 25,
+            'follower_id': followerID,
+            'logged_user_id': loggedUserID
+        };
+
+        var data = followsDBMethods.getFollows(params);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: data
+        }
+    },
     getFollowers: () => {},
     getBlockedUsers: () => {}
 }
