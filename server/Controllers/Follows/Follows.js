@@ -258,5 +258,27 @@ module.exports = {
             message: data
         };
     },
-    getBlockedUsers: () => {}
+    getBlockedUsers: (authorization, params) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var blockerUserID = authorized.user_id;
+
+        params = {
+            '_type': 'block-followers',
+            '_order_by': 'blocked_at_desc',
+            '_records_per_page': 25,
+            'blocker_user_id': blockerUserID
+        };
+
+        var data = followsDBMethods.getFollows(params);
+        return result = {
+            status: 'success',
+            code: 200,
+            message: data
+        };
+    }
 }
