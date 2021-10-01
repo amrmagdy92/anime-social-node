@@ -176,10 +176,10 @@ module.exports = {
     },
     getSearchFollowings: (authorization, params) => {
         var checkAuthorization = AccessController.isAuthorizedUser(authorization);
-        var loggedUSerID = '';
+        var loggedUserID = '';
 
         if (checkAuthorization.status == 'success') {
-            loggedUSerID = checkAuthorization.access.user_id;
+            loggedUserID = checkAuthorization.access.user_id;
         };
 
         var keyword = params.keyword.trim();
@@ -197,7 +197,7 @@ module.exports = {
             '_order_by': 'user_full_name_asc',
             '_records_per_page': 25,
             'keyword': keyword,
-            'logged_user_id': loggedUSerID
+            'logged_user_id': loggedUserID
         };
 
         var data = followsDBMethods.searchUsers(params);
