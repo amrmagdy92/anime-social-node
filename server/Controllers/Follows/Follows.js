@@ -192,13 +192,11 @@ module.exports = {
             };
         };
 
-        params = {
-            '_type' : 'search-followings',
-            '_order_by': 'user_full_name_asc',
-            '_records_per_page': 25,
-            'keyword': keyword,
-            'logged_user_id': loggedUserID
-        };
+        params._type = 'followings';
+        params._order_by = 'user_full_name_asc';
+        params._records_per_page = 25;
+        params.keyword = keyword;
+        params.logged_user_id = loggedUserID;
 
         var data = followsDBMethods.searchUsers(params);
 
@@ -218,13 +216,11 @@ module.exports = {
 
         var followerID = params.user_id;
 
-        params = {
-            '_type': 'followings',
-            '_order_by': 'followed_at_desc',
-            '_record_per_page': 25,
-            'follower_id': followerID,
-            'logged_user_id': loggedUserID
-        };
+        params._type = 'followings';
+        params._order_by = 'followed_at_desc';
+        params._records_per_page = 25;
+        params.follower_id = followerID;
+        params.logged_user_id = loggedUserID;
 
         var data = followsDBMethods.getFollows(params);
 
@@ -243,12 +239,11 @@ module.exports = {
         };
 
         var followingID = params.user_id;
-        params = {
-            '_type': 'followers',
-            '_order_by': 'followed_at_desc',
-            '_records_per_page': 25,
-            'following_id': followingID
-        };
+
+        params._type = 'followers';
+        paramsms._order_by = 'followed_at_desc';
+        paramsms._records_per_page = 25;
+        params.following_id = followingID;
 
         var data = followsDBMethods.getFollows(params);
 
@@ -267,12 +262,10 @@ module.exports = {
         var authorized = checkAuthorization.access;
         var blockerUserID = authorized.user_id;
 
-        params = {
-            '_type': 'block-followers',
-            '_order_by': 'blocked_at_desc',
-            '_records_per_page': 25,
-            'blocker_user_id': blockerUserID
-        };
+        params._type = 'block-followers';
+        params._order_by = 'blocked_at_desc';
+        params._records_per_page = 25;
+        params.blocker_user_id = blockerUserID;
 
         var data = followsDBMethods.getFollows(params);
         return result = {
