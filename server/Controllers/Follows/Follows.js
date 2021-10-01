@@ -103,7 +103,51 @@ module.exports = {
             message: 'User removed from following list'
         };
     },
-    blockUser: () => {},
+    blockUser: (authorization, blockedUserID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var blockerUserID = authorized.user_id;
+
+        if (!blockedUserID || isNaN(blockedUserID.trim())) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_blocked_user_id',
+                message: 'blocked_user_id must be valid numeric digits'
+            };
+        };
+
+        if (blockerUserID == blockedUserID.trim()) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'blocking_himself',
+                message: 'Could not block himself'
+            };
+        };
+
+        var user = followsDBMethods.getUserById(blockedUserID.trim());
+        if (!user) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_blocked_user_id',
+                message: 'blocked_user_id does not exist'
+            };
+        };
+
+        followsDBMethods.createBlockedUser(blockerUserID, blockedUserID.trim());
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'User has been blocked.'
+        };
+    },
     unblockUser: () => {},
     getSearchFollowings: () => {},
     getFollowings: () => {},
