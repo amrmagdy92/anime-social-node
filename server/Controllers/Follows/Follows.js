@@ -174,7 +174,40 @@ module.exports = {
             message: 'User has been unblocked.'
         };
     },
-    getSearchFollowings: () => {},
+    getSearchFollowings: (authorization, params) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        var loggedUSerID = '';
+
+        if (checkAuthorization.status == 'success') {
+            loggedUSerID = checkAuthorization.access.user_id;
+        };
+
+        var keyword = params.keyword.trim();
+        if (!keyword) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'keyword_required',
+                message: 'Please enter searching keyword'
+            };
+        };
+
+        params = {
+            '_type' : 'search-followings',
+            '_order_by': 'user_full_name_asc',
+            '_records_per_page': 25,
+            'keyword': keyword,
+            'logged_user_id': loggedUSerID
+        };
+
+        var data = followsDBMethods.searchUsers(params);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: data
+        };
+    },
     getFollowings: () => {},
     getFollowers: () => {},
     getBlockedUsers: () => {}
