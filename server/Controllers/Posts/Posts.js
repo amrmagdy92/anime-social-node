@@ -1,4 +1,5 @@
 const postsDBMethods = require('./PostsMySQL');
+const AccessController = require('../ACL/ACL');
 
 module.exports = {
     createPost: () => {},
