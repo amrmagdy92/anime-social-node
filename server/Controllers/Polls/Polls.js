@@ -49,7 +49,7 @@ module.exports = {
         };
 
         var checkPoll = pollsDBMethods.checkPoll(postID, authorID);
-        if (!checkPoll) {
+        if (checkPoll) {
             return result = {
                 status: 'error',
                 code: 400,
