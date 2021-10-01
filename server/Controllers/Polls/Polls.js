@@ -74,5 +74,51 @@ module.exports = {
             message: 'poll added successfully'
         };
     },
-    addVote: () => {}
+    addVote: (authorization, postID, pollID, choiceID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var authorID = authorized.user_id;
+
+        var checkPost = pollsDBMethods.checkPost(postID, authorID);
+        if (!checkPost) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_post',
+                message: 'invalid post'
+            };
+        };
+
+        var checkPoll = pollsDBMethods.checkPoll(postID, authorID);
+        if (!checkPoll) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_poll',
+                messahe: 'poll_not_exist'
+            };
+        };
+
+        var checkVote = pollsDBMethods.checkVote(postID, pollID, choiceID, authorID);
+        if (checkVote) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_poll',
+                message: 'vote_exist'
+            };
+        };
+
+        pollsDBMethods.inserVote(authorID, postID, pollID, choiceID);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'vote addedd successfully'
+        };
+    }
 }
