@@ -67,7 +67,42 @@ module.exports = {
             message: 'Added to following list'
         };
     },
-    unfollow: () => {},
+    unfollow: (authorization, followingID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var followerID = authorized.user_id;
+
+        if (!followingID || isNaN(followingID.trim())) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_following_id',
+                message: 'following_id must be valid numeric digits'
+            };
+        };
+
+        var followed = followsDBMethods.getFollowed(followerID, followingID.trim());
+        if (!followed) {
+            return result = {
+                status = 'error',
+                code: 400,
+                reason: 'invalid_following',
+                message: 'User not following this user'
+            };
+        };
+
+        followsDBMethods.deleteFollow(followerID, followingID.trim());
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'User removed from following list'
+        };
+    },
     blockUser: () => {},
     unblockUser: () => {},
     getSearchFollowings: () => {},
