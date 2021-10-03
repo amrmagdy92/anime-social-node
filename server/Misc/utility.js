@@ -59,5 +59,7 @@ module.exports = {
 
         return uniqueID;
     },
-    parseURL: () => {}
+    parseURL: (url) => {
+        // TODO: check with lelouch
+    }
 }
