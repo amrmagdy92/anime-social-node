@@ -83,5 +83,47 @@ module.exports = {
             // TODO: try to understand the logic from the PHP file
         });
     },
-    deleteImage: () => {}
+    deleteImage: (authorization, imageID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var image = imagesDBMethods.getImageByID(imageID.trim());
+        if (!image) {
+            return result = {
+                status: 'error',
+                reason: 'invalid_image_id',
+                message: 'Invalid image id'
+            };
+        };
+
+        if (image.image_reference_type == 'posts') {
+            var fileSystemPath = process.env.FILESYSTEM_PATH_FOR_POST_IMAGE
+        };
+
+        if (image.image_filename) {
+            var filePath = `${fileSystemPath}/${image.image_filename}`;
+            fs.unlink(filePath, (err) => {
+                if (err) console.error(`Encountered the following error: ${err}`);
+                console.log(`Image at ${filePath} was deleted successfully`);
+            });
+        };
+
+        if (image.image_thumbnail_filename) {
+            var filePath = `${fileSystemPath}/${image_thumbnail_filename}`;
+            fs.unlink(filePath, (err) => {
+                if (err) console.error(`Encountered the following error: ${err}`);
+                console.log(`Thumbnail at ${filePath} was deleted successfully`);
+            });
+        };
+
+        imagesDBMethods.deleteImage(imageID);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Image deleted successfully'
+        };
+    }
 };
