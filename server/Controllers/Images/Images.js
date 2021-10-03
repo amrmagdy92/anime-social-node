@@ -43,7 +43,6 @@ module.exports = {
                         message: `Please select image file. The image number: ${key} is empty`
                     };
                 };
-                break;
             });
 
             Object.entries(imageFiles).forEach(([key, value]) => {
@@ -59,7 +58,6 @@ module.exports = {
                         message: `The image number ${key} has an invalid extension. Only use images with extensions: ${process.env.ALLOWED_IMAGE_EXTENSIONS.join(',')}`
                     };
                 };
-                break;
             });
 
             // TODO: Add lines 129-139 from ImagesService.php

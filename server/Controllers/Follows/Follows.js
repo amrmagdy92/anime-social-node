@@ -88,7 +88,7 @@ module.exports = {
         var followed = followsDBMethods.getFollowed(followerID, followingID.trim());
         if (!followed) {
             return result = {
-                status = 'error',
+                status: 'error',
                 code: 400,
                 reason: 'invalid_following',
                 message: 'User not following this user'
