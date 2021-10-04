@@ -183,7 +183,76 @@ module.exports = {
             message: 'Post created successfully'
         };
     },
-    updatePost: () =>{},
+    updatePost: (authorization, postID, postText, postIsSpoiler) =>{
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var authorID = authorized.user_id;
+
+        var post = postsDBMethods.getPostByID(postID);
+        if (!post) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_post_id',
+                message: 'Invalid post_id'
+            };
+        };
+
+        if (post.author_id != authorID) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_author',
+                message: 'Not authoried to perform the requested operation'
+            };
+        };
+
+        var validationErrors;
+
+        if (!postText) {
+            validationErrors.post_text = {
+                reason: 'empty',
+                message: 'Please enter post text'
+            };
+        };
+
+        if (postText && postText.length > 2000) {
+            validationErrors.post_text = {
+                reason: 'strlen',
+                message: 'Please enter less than 2000 char.'
+            };
+        };
+
+        var postIsSpoilerValues = ['Yes', 'No'];
+        if (!postIsSpoilerValues.includes(postIsSpoiler)) {
+            validationErrors.post_is_spoiler = {
+                reason: 'in_json',
+                message: `Please select from: ${postIsSpoilerValues.join(',')}`
+            };
+        };
+
+        if (validationErrors) {
+            return result = {
+                status: 'error',
+                code: 422,
+                reason: 'validation_errors',
+                message: 'Please correct highlighted errors',
+                validationErrors
+            };
+        };
+
+        postsDBMethods.updatePost(postID, postText, postIsSpoiler);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Post updated successfully'
+        };
+    },
     deletePost: () => {},
     hide: () => {},
     reaction: () => {},
