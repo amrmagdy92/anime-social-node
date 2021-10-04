@@ -192,7 +192,7 @@ module.exports = {
         var authorized = checkAuthorization.access;
         var authorID = authorized.user_id;
 
-        var post = postsDBMethods.getPostByID(postID);
+        var post = postsDBMethods.getPostByID(postID.trim());
         if (!post) {
             return result = {
                 status: 'error',
@@ -202,7 +202,7 @@ module.exports = {
             };
         };
 
-        if (post.author_id != authorID) {
+        if (post.author_id != authorID.trim()) {
             return result = {
                 status: 'error',
                 code: 400,
@@ -228,7 +228,7 @@ module.exports = {
         };
 
         var postIsSpoilerValues = ['Yes', 'No'];
-        if (!postIsSpoilerValues.includes(postIsSpoiler)) {
+        if (!postIsSpoilerValues.includes(postIsSpoiler.trim())) {
             validationErrors.post_is_spoiler = {
                 reason: 'in_json',
                 message: `Please select from: ${postIsSpoilerValues.join(',')}`
@@ -245,7 +245,7 @@ module.exports = {
             };
         };
 
-        postsDBMethods.updatePost(postID, postText, postIsSpoiler);
+        postsDBMethods.updatePost(postID.trim(), postText.trim(), postIsSpoiler.trim());
 
         return result = {
             status: 'success',
