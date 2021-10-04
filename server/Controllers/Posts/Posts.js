@@ -316,6 +316,51 @@ module.exports = {
             message: 'Post hidden successfully'
         };
     },
-    reaction: () => {},
+    reaction: (authorization, postID, reaction) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var userID = authorized.user_id;
+
+        var post = postsDBMethods.getPostByID(postID);
+        if (!post) {
+            return result = {
+                status: 'error',
+                reason: 'invalid_post_id',
+                message: 'Invalid post_id'
+            };
+        };
+
+        var validationErrors;
+        
+        var reactionValues = ['like', 'dislike', 'rlike', 'rdislike'];
+        if (!reactionValues.includes(reaction.trim())) {
+            validationErrors.reaction = {
+                reason: 'in_array',
+                message: `Please select from: ${reactionValues.join(',')}`
+            };
+        };
+
+        if (validationErrors) {
+            return result = {
+                status: 'error',
+                code: 422,
+                reason: 'validation_errors',
+                message: 'Please correct highlighted errors',
+                validationErrors
+            };
+        };
+
+        postsDBMethods.savePostReaction(userID, postID.trim(), reaction.trim());
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Post reaction saved successfully'
+        };
+    },
     getPosts: () => {}
 }
