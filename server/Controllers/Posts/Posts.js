@@ -253,7 +253,42 @@ module.exports = {
             message: 'Post updated successfully'
         };
     },
-    deletePost: () => {},
+    deletePost: (authorization, postID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var authorID = authorized.user_id;
+
+        var post = postsDBMethods.getPostByID(postID.trim());
+        if (!post) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_post_id',
+                message: 'Invalid post_id'
+            };
+        };
+
+        if (post.author_id != authorID.trim()) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_author',
+                message: 'Not authorized to perform the requested operation'
+            };
+        };
+
+        postsDBMethods.deletePost(postID.trim());
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Post deleted successfully'
+        };
+    },
     hide: () => {},
     reaction: () => {},
     getPosts: () => {}
