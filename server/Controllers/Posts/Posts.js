@@ -289,7 +289,33 @@ module.exports = {
             message: 'Post deleted successfully'
         };
     },
-    hide: () => {},
+    hide: (authorization, postID) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        };
+
+        var authorized = checkAuthorization.access;
+        var userID = authorized.user_id;
+
+        var post = postsDBMethods.getPostByID(postID.trim());
+        if (!post) {
+            return result = {
+                status: 'error',
+                code: 400,
+                reason: 'invalid_post_id',
+                message: 'Invalid post_id'
+            };
+        };
+
+        postsDBMethods.hidePost(postID.trim(), userID);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            message: 'Post hidden successfully'
+        };
+    },
     reaction: () => {},
     getPosts: () => {}
 }
