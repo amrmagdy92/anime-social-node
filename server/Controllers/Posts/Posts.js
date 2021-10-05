@@ -362,5 +362,44 @@ module.exports = {
             message: 'Post reaction saved successfully'
         };
     },
-    getPosts: () => {}
-}
+    getPosts: (authorization, params) => {
+        var checkAuthorization = AccessController.isAuthorizedUser(authorization);
+        if (checkAuthorization.status == 'error') {
+            return checkAuthorization;
+        }
+
+        var authorized = checkAuthorization.access;
+        var userID = authorized.user_id;
+
+        var validationErrors;
+        var postScopes = ['Public', 'Following'];
+        if (!postScopes.includes(params.post_scope.trim())) {
+            validationErrors.post_scope = {
+                reason: 'in_json',
+                message: `Please select from: ${postScopes.join(',')}`
+            };
+        };
+
+        if (validationErrors) {
+            return result = {
+                status: 'error',
+                code: 422,
+                reason: 'validation_errors',
+                message: 'Please correct highlighted errors',
+                validationErrors
+            };
+        };
+        
+        params._order_by = 'post_created_at_desc';
+        params._records_per_page = 25;
+        params.user_id = userID;
+
+        var data = postsDBMethods.getPosts(params);
+
+        return result = {
+            status: 'success',
+            code: 200,
+            data
+        };
+    }
+};
