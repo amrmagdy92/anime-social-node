@@ -58,8 +58,5 @@ module.exports = {
         };
 
         return uniqueID;
-    },
-    parseURL: (url) => {
-        // TODO: check with lelouch
     }
 }

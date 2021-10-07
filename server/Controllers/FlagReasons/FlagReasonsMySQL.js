@@ -15,7 +15,6 @@ module.exports = {
         var flagReasonReferenceType = params.flag_reason_reference_type;
         var WHERE = '';
         var query = '';
-        // TODO: ask what is the usage of this.
         if (orderBys.hasOwnProperty(orderBy)) {
             orderBy = 'flag_reason_order_asc';
         };
