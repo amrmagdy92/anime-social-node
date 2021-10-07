@@ -14,14 +14,30 @@ app.use(express.urlencoded({extended: true}));
 
 // FIXME: Need to find a better route structure for the Follows logic
 // Follows
-app.post('/api/follow', FollowController.follow());
-app.post('/api/unfollow', FollowController.unfollow());
-app.post('/api/block-user', FollowController.blockUser());
-app.post('/api/unblock-user', FollowController.unblockUser());
-app.get('/api/search-followings', FollowController.getSearchFollowings());
-app.get('/api/followings', FollowController.getFollowings());
-app.get('/api/followers', FollowController.getFollowers());
-app.get('/api/blocked-users', FollowController.getBlockedUsers());
+app.post('/api/follow', (req, res) => {
+    FollowController.follow();
+});
+app.post('/api/unfollow', (req, res) => {
+    FollowController.unfollow();
+});
+app.post('/api/block-user', (req,res) => {
+    FollowController.blockUser();
+});
+app.post('/api/unblock-user', (req, res) => {
+    FollowController.unblockUser()
+});
+app.get('/api/search-followings', (req, res) => {
+    FollowController.getSearchFollowings();
+});
+app.get('/api/followings', (req, res) => {
+    FollowController.getFollowings();
+});
+app.get('/api/followers', (req, res) => {
+    FollowController.getFollowers();
+});
+app.get('/api/blocked-users', (req, res) => {
+    FollowController.getBlockedUsers();
+});
 
 // Posts
 app.use('/api/posts', PostsRouter);
