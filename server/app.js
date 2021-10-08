@@ -1,6 +1,6 @@
 var express = require('express');
-const FollowController = require('./Controllers/Follows/Follows');
 
+const FollowsRouter = require('./Routes/FollowsRoute');
 const PostsRouter = require('./Routes/PostsRoute');
 const CommentsRouter = require('./Routes/CommentsRoute');
 const FlagsRouter = require('./Routes/FlagsRoute');
@@ -12,32 +12,8 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-// FIXME: Need to find a better route structure for the Follows logic
 // Follows
-app.post('/api/follow', (req, res) => {
-    FollowController.follow();
-});
-app.post('/api/unfollow', (req, res) => {
-    FollowController.unfollow();
-});
-app.post('/api/block-user', (req,res) => {
-    FollowController.blockUser();
-});
-app.post('/api/unblock-user', (req, res) => {
-    FollowController.unblockUser()
-});
-app.get('/api/search-followings', (req, res) => {
-    FollowController.getSearchFollowings();
-});
-app.get('/api/followings', (req, res) => {
-    FollowController.getFollowings();
-});
-app.get('/api/followers', (req, res) => {
-    FollowController.getFollowers();
-});
-app.get('/api/blocked-users', (req, res) => {
-    FollowController.getBlockedUsers();
-});
+app.use('/api/userinteraction', FollowsRouter);
 
 // Posts
 app.use('/api/posts', PostsRouter);
