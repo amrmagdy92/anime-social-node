@@ -5,4 +5,8 @@ router.post('/vote', (req, res) => {
     PollsController.addVote();
 });
 
+router.post('/create', (req, res) => {
+    res.json(PollsController.createPoll());
+})
+
 module.exports = router;
