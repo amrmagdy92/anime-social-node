@@ -2,7 +2,10 @@ var router = require('express').Router();
 const CommentsController = require('../Controllers/Comments/Comments');
 
 router.get('/', (req, res) => {
-    res.json(CommentsController.getComments(req.headers.authorization, req.params));
+    res.json(CommentsController.getComments(
+        req.headers.authorization,
+        req.params
+    ));
 });
 router.post('/create', (req, res) => {
     res.json(CommentsController.createComment(
